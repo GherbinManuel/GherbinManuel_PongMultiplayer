@@ -2,10 +2,9 @@ using UnityEngine;
 using Mirror;
 using System.Collections.Generic;
 using System;
-using UnityEngine.SceneManagement;
 public class PongNetworkManager : NetworkManager
 {
-    public const int MAX_POINT = 7;
+    public const int MAX_POINT = 1;
     public List<PlayerBarPong> Players => _players;
     private List<PlayerBarPong> _players = new(2);
 
@@ -76,16 +75,23 @@ public class PongNetworkManager : NetworkManager
         base.OnServerConnect(conn);
 
         Debug.Log($"{Players.Count}");
-        /*
-        if (Players.Count <= 2) return;
+        
+        if (Players.Count < 2) return;
 
         conn.Disconnect();
-    */}
+    }
+
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
     {
         PlayerBarPong player = conn.identity.GetComponent<PlayerBarPong>();
 
         Players.Remove(player);
+        /*
+        foreach(var remainingPlayer in Players)
+            remainingPlayer.RpcChangeUI(UIManager.UITypes.Lobby);*/
+
+        NetworkClient.connection.identity.GetComponent<PlayerBarPong>().RpcChangeUI(UIManager.UITypes.Lobby);
+
 
         if (ball != null)
             NetworkServer.Destroy(ball);
@@ -107,6 +113,7 @@ public class PongNetworkManager : NetworkManager
     {
         base.OnClientDisconnect();
         ClientOnDisconnected?.Invoke();
+        UIManager.Instance.SetUI(UIManager.UITypes.MainMenu);
     }
     public override void OnStopClient()
     {
@@ -127,10 +134,6 @@ public class PongNetworkManager : NetworkManager
         else
         {
             StopClient();
-
-            PlayerBarPong currentPlayer = NetworkClient.connection.identity.GetComponent<PlayerBarPong>();
-            foreach (var player in Players)
-                player.CmdChangeUI(player == currentPlayer ? UIManager.UITypes.MainMenu : UIManager.UITypes.Lobby);
         }
 
     }

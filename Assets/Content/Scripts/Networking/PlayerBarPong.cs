@@ -80,10 +80,8 @@ public class PlayerBarPong : NetworkBehaviour
         UIManager.Instance.SetUI(UIManager.UITypes.Lobby);
     }
     [ClientRpc]
-    private void RpcChangeUI(UIManager.UITypes uiType)
+    public void RpcChangeUI(UIManager.UITypes uiType)
     {
-        if (!isOwned)
-            return;
         UIManager.Instance.SetUI(uiType);
     }
 
@@ -114,7 +112,7 @@ public class PlayerBarPong : NetworkBehaviour
     {
         ClientOnInfoUpdated?.Invoke();
 
-        if (!isClientOnly) return;
+        if (!isClientOnly) return;//SE SONO SERVER NON FACCIO ALTRO
 
         ((PongNetworkManager)NetworkManager.singleton).Players.Remove(this);
         
