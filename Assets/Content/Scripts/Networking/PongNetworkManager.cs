@@ -73,8 +73,6 @@ public class PongNetworkManager : NetworkManager
     public override void OnServerConnect(NetworkConnectionToClient conn)
     {
         base.OnServerConnect(conn);
-
-        Debug.Log($"{Players.Count}");
         
         if (Players.Count < 2) return;
 

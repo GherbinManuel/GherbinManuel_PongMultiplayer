@@ -24,8 +24,6 @@ public class PongBall : NetworkBehaviour
     {
         base.OnStartServer();
 
-        speed = 1500;
-
         rigidbody2d.simulated = true;
 
         SetMovementDirection = Vector3.right;
@@ -47,7 +45,7 @@ public class PongBall : NetworkBehaviour
             return;
         }
 
-        Debug.LogWarning($"Hit a worng layer {collision.gameObject}");
+        //Debug.LogWarning($"Hit a worng layer {collision.gameObject}");
     }
 
     float HitFactor(Vector2 ballPos, Vector2 racketPos, float racketHeight)
