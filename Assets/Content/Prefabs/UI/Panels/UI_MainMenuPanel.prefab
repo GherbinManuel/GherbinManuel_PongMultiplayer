@@ -383,6 +383,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ipInputField: {fileID: 989898454564630882}
+  _localIPLabel: {fileID: 1232215161169314964}
   _hostButton: {fileID: 7975381908613375006}
   _joinButton: {fileID: 1635313459068022655}
 --- !u!1 &3185987788730134689
